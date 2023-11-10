@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, StyleSheet, Dimensions, Animated, Easing, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import crypto from 'crypto-js';
-import axios from 'axios';
 
 function decryptAES(encode, secretKey) {
   let bytes = crypto.AES.decrypt(encode, secretKey);

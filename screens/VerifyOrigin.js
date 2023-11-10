@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { View, Image, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import {  useRoute } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 import axios from 'axios';
-import TableComponent from '../components/Table';
 import AlterImage from '../components/AlterImage';
 
 const VerifyOriginScreen = ({ navigation }) => {
@@ -12,21 +11,22 @@ const VerifyOriginScreen = ({ navigation }) => {
     const [ items, setItems] = useState([]);
     const [isHovered, setIsHovered] = useState(false);
     useEffect(() => {
-        const fetchData = async (url) => {
-            try {
-                const response = await axios.get(url);
-                // console.log(response)
-                const result = response.data;
-                if (result.success) {
-                    setItems([ ...result.data.items ])
-					setTracks([ ...result.data._tracking_history ])
-				} else {
-
+      const fetchData = async (url) => {
+			try {
+				const response = await axios.get(url);
+				// console.log(response)
+				const result = response.data;
+				if (result.success) {
+					setItems([...result.data.items]);
+					setTracks([...result.data._tracking_history]);
+				} 
+        else {
+          // todo
 				}
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
+			} catch (error) {
+				console.error("Error fetching data:", error);
+			}
+		};
 
         const { params } = route;
         if (params && params.state) {

@@ -15,13 +15,13 @@ const HomeScreen = ({ navigation }) => {
 			<View style={styles.center}>
 				<View style={styles.mainNav}>
 					<TouchableOpacity style={styles.tab}>
-						<Icon name="enter-outline" size={35} color="#9aa0a6" />
+						<Icon name="enter-outline" size={32} color="#9aa0a6" />
 						<Text style={styles.text}>Deposit</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.tab}>
 						<Icon
 							name="log-out-outline"
-							size={35}
+							size={32}
 							color="#9aa0a6"
 						/>
 						<Text style={styles.text}>Withdraw</Text>
@@ -32,13 +32,13 @@ const HomeScreen = ({ navigation }) => {
 						}}
 						style={styles.tab}
 					>
-						<Icon name="card-outline" size={35} color="#9aa0a6" />
+						<Icon name="card-outline" size={32} color="#9aa0a6" />
 						<Text style={styles.text}>Payment</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.tab}>
 						<Icon
 							name="game-controller-outline"
-							size={35}
+							size={32}
 							color="#9aa0a6"
 						/>
 						<Text style={styles.text}>Games</Text>
@@ -46,7 +46,7 @@ const HomeScreen = ({ navigation }) => {
 				</View>
 
         <View style={[styles.balanceContainer, { marginTop: 10 }]}>
-				<Text style={{ color: "#ccc", fontSize: 25 }}>
+				<Text style={{ color: "#ccc", fontSize: 20 }}>
 					Wallet balance
 				</Text>
 				<Text style={styles.balance}>$5.00</Text>
@@ -67,11 +67,11 @@ const HomeScreen = ({ navigation }) => {
 
 			<View style={styles.navigatorContainer}>
 				<TouchableOpacity style={styles.tab}>
-					<Icon name="home-outline" size={35} color="#9aa0a6" />
+					<Icon name="home-outline" size={32} color="#9aa0a6" />
 					<Text style={styles.text}>Home</Text>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.tab}>
-					<Icon name="cart-outline" size={35} color="#9aa0a6" />
+					<Icon name="cart-outline" size={32} color="#9aa0a6" />
 					<Text style={styles.text}>History</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
@@ -80,17 +80,17 @@ const HomeScreen = ({ navigation }) => {
 					}}
 					style={styles.tab}
 				>
-					<Icon name="scan-outline" size={35} color="#9aa0a6" />
+					<Icon name="scan-outline" size={32} color="#9aa0a6" />
 					<Text style={styles.text}>QR Scan</Text>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.tab}>
-					<Icon name="wallet-outline" size={35} color="#9aa0a6" />
+					<Icon name="wallet-outline" size={32} color="#9aa0a6" />
 					<Text style={styles.text}>Wallet</Text>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.tab}>
 					<Icon
 						name="person-circle-outline"
-						size={35}
+						size={32}
 						color="#9aa0a6"
 					/>
 					<Text style={styles.text}>Profile</Text>
@@ -176,8 +176,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10
   },
   balance: {
-    fontSize: 45,
-    color: '#ccc'
+    fontSize: 35,
+    color: 'lightgreen'
   }
   
 });
