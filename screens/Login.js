@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import axios from 'axios';
+import Config from '../config.dev';
 
 const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
@@ -8,11 +9,12 @@ const LoginScreen = ({ navigation }) => {
     const [msg, setMsg] = useState('');
 
     const logo = require('../static/delirate-main.png')
-    const apiUrl = 'https://sud-delirate.onrender.com/account/login';
+    // const apiUrl = 'https://sud-delirate.onrender.com/account/login';
+    const apiUrl = Config.API_URL;
 
     const fetchData = async () => {
         try {
-            const response = await axios.post(apiUrl, {
+            const response = await axios.post(apiUrl + '/account/login', {
                 email: email,
                 password: password
             });
@@ -29,7 +31,7 @@ const LoginScreen = ({ navigation }) => {
             }
         }
         catch(err) {
-            setMsg('An error occurred');
+            setMsg('An error occurred: ' + err);
         }
     }
 
@@ -71,7 +73,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "#f7f7f7",
 	},
 	logo: {
-		width: "50%",
+		width: "100%",
 		height: 100,
 		marginBottom: 20,
 	},

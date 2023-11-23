@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import ImageSlider from "../components/ImageSlider";
 
 const HomeScreen = ({ navigation }) => {
 	const logo = require("../static/delirate2.png");
-  const banner = require("../static/banner.png");
 
 	return (
 		<View style={styles.container}>
@@ -58,11 +58,10 @@ const HomeScreen = ({ navigation }) => {
 
 			
 			<View style={styles.center}>
-				<Image
-					style={styles.banner}
-					source={banner}
-					resizeMode="contain"
-				/>
+				<View style={styles.slider}>
+				
+				<ImageSlider  />
+				</View>
 			</View>
 
 			<View style={styles.navigatorContainer}>
@@ -70,7 +69,9 @@ const HomeScreen = ({ navigation }) => {
 					<Icon name="home-outline" size={32} color="#9aa0a6" />
 					<Text style={styles.text}>Home</Text>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.tab}>
+				<TouchableOpacity style={styles.tab} onPress={() => {
+						navigation.navigate("History");
+					}}>
 					<Icon name="cart-outline" size={32} color="#9aa0a6" />
 					<Text style={styles.text}>History</Text>
 				</TouchableOpacity>
@@ -103,13 +104,13 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     alignContent: 'center',
-    height: Dimensions.get('window').height,
+    height: Dimensions.get('window').height * 1.045,
     backgroundColor: '#F0F3F3'
   },
   banner: {
     width: '60%',
     position: 'absolute',
-    top: 180
+    top: 50
   },
 	navigatorContainer: {
 		position: "absolute",
@@ -136,49 +137,62 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-around",
 		alignItems: "center",
-		backgroundColor: "#313552",
 		borderBottomColor: "#ccc",
 		paddingVertical: 10,
 		width: "100%",
-    maxHeight: 160
+    	maxHeight: 160,
+		backgroundColor: '#6a3093',  // Start of gradient
+  backgroundImage: 'linear-gradient(315deg, #6a3093 0%, #a044ff 74%)', 
 	},
   logo: {
     width: '100%'
   },
   mainNav: {
     position: "absolute",
-		top: 130,
+		top: 212,
 		flexDirection: "row",
 		justifyContent: "space-around",
 		alignItems: "center",
 		backgroundColor: "#313552",
 		borderWidth: 1,
-    borderColor: 'transparent',
-    borderRadius: 10,
+    	// borderTopColor: 'lavender',
+    	borderBottomLeftRadius: 20,
+    	borderBottomRightRadius: 20,
 		paddingVertical: 10,
-		width: "80%",
+		width: "95%",
   },
   center: {
-    flexDirection: "column",
+    	flexDirection: "column",
 		justifyContent: "center",
 		alignItems: "center",
+		textAlign: 'center'
   }, 
   balanceContainer: {
     position: "absolute",
-		top: 250,
+		top: 80,
     flexDirection: "column", // Set flexDirection to column
     alignItems: "center",
-    width: '90%',
+    width: '95%',
     backgroundColor: "#313552",
-    borderWidth: 1,
+    // borderWidth: 1,
     borderColor: 'transparent',
-    borderRadius: 15,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     paddingVertical: 10
   },
   balance: {
     fontSize: 35,
     color: 'lightgreen'
-  }
+  },
+  slider: {
+	position: "absolute",
+	top: 370,
+    flexDirection: "column", // Set flexDirection to column
+    alignItems: "center",
+	justifyContent: 'center',
+	width: '80%',
+  },
+  
   
 });
 

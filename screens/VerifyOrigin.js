@@ -4,12 +4,13 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import AlterImage from '../components/AlterImage';
-
+import Config from '../config.dev';
 const VerifyOriginScreen = ({ navigation }) => {
     const route = useRoute();
     const [ tracks, setTracks ] = useState([]);
     const [ items, setItems] = useState([]);
     const [isHovered, setIsHovered] = useState(false);
+    
     useEffect(() => {
       const fetchData = async (url) => {
 			try {
@@ -24,7 +25,7 @@ const VerifyOriginScreen = ({ navigation }) => {
           // todo
 				}
 			} catch (error) {
-				console.error("Error fetching data:", error);
+				navigation.navigate("FailOrigin");
 			}
 		};
 
@@ -54,7 +55,7 @@ const VerifyOriginScreen = ({ navigation }) => {
 			</View>
 			<View>
 				{items.map((item, index) => {
-          let imageUrl = `https://sud-delirate.onrender.com/uploads/4cdaa0e01110e3d64916df5d2bc044cc/${item.info.image}`;
+          let imageUrl = `${Config.API_URL}/uploads${item.info.image}`;
 					return (
 						<TouchableOpacity
                             key={index}

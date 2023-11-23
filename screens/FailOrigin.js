@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
-import { View, Image, Text, StyleSheet, TextInput , Dimensions, Button } from 'react-native';
+import { View, Text, StyleSheet, TextInput , Dimensions, Button } from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
-import {  useRoute } from '@react-navigation/native';
-import axios from 'axios';
-import TableComponent from '../components/Table';
+
 
 const FailOriginScreen = ({ navigation }) => {
 
@@ -16,7 +14,7 @@ const FailOriginScreen = ({ navigation }) => {
 			<EntypoIcon name="circle-with-cross" size={50} color="#E76161" />
 			<Text style={styles.text}>Your items are invalid</Text>
 			<Text style={styles.header}>
-				We can't verify the origin of these items
+				We can't verify the transaction
 			</Text>
 			<TextInput
 				placeholder="Leave your email..."

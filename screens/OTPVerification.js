@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import { useRoute } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Config from "../config.dev";
 
 
 const OTPVerificationScreen = ({ navigation }) => {
@@ -27,7 +28,7 @@ const OTPVerificationScreen = ({ navigation }) => {
 		}
 	}, []);
 
-	const apiUrl = "https://sud-delirate.onrender.com/account/confirm_otp";
+	const apiUrl = Config.API_URL;
 
 	const headers = {
 		Authorization: `Bearer ${token}`,
@@ -40,14 +41,14 @@ const OTPVerificationScreen = ({ navigation }) => {
 
 	const fetchData = async () => {
 		try {
-			const response = await axiosInstance.post(apiUrl, {
+			const response = await axiosInstance.post(apiUrl + '/account/confirm_otp', {
 				code: otp.join(""),
 			});
 
 			const result = response.data;
 			// console.log(result);
 			if (result.success) {
-                await AsyncStorage.setItem('token', token);
+                await AsyncStorage.setItem('user', JSON.stringify(result.data));
 				navigation.navigate("Home");
 			} else {
 				setMsg("OTP invalid");
