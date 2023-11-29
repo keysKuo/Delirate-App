@@ -93,7 +93,7 @@ export default function QRScannerScreen({ navigation }) {
 				}
 			}
 			else if(data.startsWith(`${Config.API_URL}/near-payment`)) {
-				await axios.post(data)
+				await axios.put(data)
 					.then(response => {
 						const result = response.data;
 						if(result.success) {
