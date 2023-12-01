@@ -15,6 +15,8 @@ import AdmitPermissionScreen from "./screens/Permission";
 import TrackingDeliveryScreen from "./screens/TrackingDelivery";
 import OrderDetailScreen from "./screens/OrderDetail";
 import HistoryScreen from "./screens/History";
+import PayConfirmScreen from "./screens/PayConfirm";
+
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
@@ -80,6 +82,11 @@ const AppNavigator = () => {
 					options={{ headerShown: false }}
 					name="AdmitPermission"
 					component={AdmitPermissionScreen}
+				/>
+				<Stack.Screen
+					options={{ headerShown: false }}
+					name="PayConfirm"
+					component={PayConfirmScreen}
 				/>
 				<Stack.Screen
 					options={{ headerShown: false }}

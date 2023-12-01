@@ -93,16 +93,10 @@ export default function QRScannerScreen({ navigation }) {
 				}
 			}
 			else if(data.startsWith(`${Config.API_URL}/near-payment`)) {
-				await axios.put(data)
-					.then(response => {
-						const result = response.data;
-						if(result.success) {
-							navigation.navigate('Home')
-						}
-					})
-					.catch(err => {
-						console.log(err)
-					})
+				navigation.navigate('PayConfirm', {
+					fetch_url: data
+				})
+				// console.log(data);
 			} 
 			else {
 				let decrypted_link = decryptAES(data, "nkeyskuo");
