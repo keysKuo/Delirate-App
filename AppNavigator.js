@@ -16,6 +16,7 @@ import TrackingDeliveryScreen from "./screens/TrackingDelivery";
 import OrderDetailScreen from "./screens/OrderDetail";
 import HistoryScreen from "./screens/History";
 import PayConfirmScreen from "./screens/PayConfirm";
+import ItemInfoScreen from "./screens/ItemInfo";
 
 const Stack = createStackNavigator();
 
@@ -77,6 +78,11 @@ const AppNavigator = () => {
 					options={{ headerShown: false }}
 					name="WalletProfile"
 					component={WalletProfileScreen}
+				/>
+				<Stack.Screen
+					options={{ headerShown: false }}
+					name="ItemInfo"
+					component={ItemInfoScreen}
 				/>
 				<Stack.Screen
 					options={{ headerShown: false }}

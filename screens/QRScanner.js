@@ -98,6 +98,17 @@ export default function QRScannerScreen({ navigation }) {
 				})
 				// console.log(data);
 			} 
+			else if(data.startsWith(`${Config.API_URL}/item`)) {
+				const response = await axios.get(data);
+				
+				const result = response.data;
+				if(result.success) {
+					navigation.navigate('ItemInfo', {
+						item: result.data
+					})
+				}
+				
+			}
 			else {
 				let decrypted_link = decryptAES(data, "nkeyskuo");
 				navigation.navigate("VerifyOrigin", {

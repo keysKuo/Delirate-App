@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
@@ -6,12 +6,52 @@ import {
 	Image,
 	TouchableHighlight,
 	TouchableOpacity,
+	Alert,
+	ScrollView,
 } from "react-native";
 
 import alter from "../static/alter.png";
+import axios from "axios";
+import Config from "../config.dev";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const HistoryScreen = ({navigation}) => {
+const apiUrl = Config.API_URL;
+
+const HistoryScreen = ({ navigation }) => {
 	const [currentPage, setCurrentPage] = useState("page1");
+	const [orders, setOrders] = useState([]);
+
+	useEffect(() => {
+		const fetchDataOrders = async () => {
+			const userJSON = await AsyncStorage.getItem("user");
+			const user = JSON.parse(userJSON);
+
+			await axios
+				.get(
+					`${apiUrl}/order/get_orders_by_customer/${user.customer_id}`
+				)
+				.then((response) => {
+					const result = response.data;
+					if (result.success) {
+						setOrders([...result.data]);
+					}
+				})
+				.catch((err) => {
+					Alert.alert(
+						"Error", // Title of the dialog
+						"Orders not found", // Message of the dialog
+						[
+							{ text: "OK" }, // Button to dismiss the dialog
+						],
+						{ cancelable: false } // Prevents the alert from being dismissed by tapping outside of the alert box
+					);
+				});
+		};
+
+		if (orders.length == 0) {
+			fetchDataOrders();
+		}
+	}, []);
 
 	return (
 		<View style={styles.container}>
@@ -106,236 +146,167 @@ const HistoryScreen = ({navigation}) => {
 
 				{/* Content */}
 			</View>
-			<View style={styles.content}>
+			<ScrollView style={styles.content}>
 				{currentPage === "page1" && (
 					<>
-						<TouchableOpacity onPress={() => {
-              navigation.navigate('Order Detail')
-            }} style={styles.orderContainer}>
-							<View
-								style={[
-									styles.rowBox,
-									{
-										borderTopWidth: 0.5,
-										borderColor: "#ccc",
-									},
-								]}
-							>
-								<Text
-									style={{ fontSize: 16, fontWeight: "bold" }}
-								>
-									LINKEETECH - Super market
-								</Text>
-								<Text
-									style={{
-										paddingTop: 2,
-										fontSize: 13,
-										color: "#ccc",
+						{orders.map((order, index) => {
+							return (
+								<TouchableOpacity
+									key={index}
+									onPress={() => {
+										navigation.navigate("Order Detail",{
+											data: order
+										});
 									}}
+									style={styles.orderContainer}
 								>
-									09-14-2023
-								</Text>
-							</View>
-
-							<View
-								style={[styles.deliveryInfo, { marginTop: 10 }]}
-							>
-								<View
-									style={[
-										styles.infoHeader,
-										{ paddingRight: "20%" },
-									]}
-								>
-									<Image
-										style={{ width: 100, height: 100 }}
-										source={alter}
-									/>
 									<View
-										style={{
-											paddingHorizontal: 15,
-											paddingVertical: 5,
-										}}
+										style={[
+											styles.rowBox,
+											{
+												borderTopWidth: 0.5,
+												borderColor: "#ccc",
+											},
+										]}
 									>
 										<Text
 											style={{
-												flexWrap: "wrap",
-												textAlign: "left",
+												fontSize: 16,
 												fontWeight: "bold",
 											}}
 										>
-											(FNK Vision) Camera IP Wifi Yoosee
+											{order.store.name} - Store
 										</Text>
-										<View style={styles.infoHeader}>
-											<Text
-												style={{
-													flexWrap: "wrap",
-													textAlign: "left",
-													paddingTop: 5,
-												}}
-											>
-												94/20 Thanh Loc 16 Q12
-											</Text>
-										</View>
-										<View style={styles.infoHeader}>
-											<Text
-												style={{
-													color: "lightcoral",
-													paddingTop: 5,
-												}}
-											>
-												$29.99{" "}
-											</Text>
-											<Text style={{ paddingTop: 5 }}>
-												{" "}
-												(x1) - Cash
-											</Text>
-										</View>
+										<Text
+											style={{
+												paddingTop: 2,
+												fontSize: 13,
+												color: "#ccc",
+											}}
+										>
+											{order.createdDate}
+										</Text>
 									</View>
-								</View>
-							</View>
-							<View
-								style={[
-									styles.rowBox,
-									{
-										paddingHorizontal: 25,
-										paddingTop: 0,
-										borderBottomWidth: 0.5,
-										borderColor: "#ccc",
-									},
-								]}
-							>
-                
-								<Text
-									style={{
-										color: "#89B9AD",
-										fontWeight: "bold",
-										fontSize: 16,
-										marginLeft: 15,
-                    position: 'absolute',
-                    right: 15,
-                    bottom: 12
-									}}
-								>
-									Arriving
-								</Text>
-								
-							</View>
-						</TouchableOpacity>
-						<TouchableOpacity style={styles.orderContainer}>
-							<View
-								style={[
-									styles.rowBox,
-									{
-										borderTopWidth: 0.5,
-										borderColor: "#ccc",
-									},
-								]}
-							>
-								<Text
-									style={{ fontSize: 16, fontWeight: "bold" }}
-								>
-									LINKEETECH - Super market
-								</Text>
-								<Text
-									style={{
-										paddingTop: 2,
-										fontSize: 13,
-										color: "#ccc",
-									}}
-								>
-									09-14-2023
-								</Text>
-							</View>
 
-							<View
-								style={[styles.deliveryInfo, { marginTop: 10 }]}
-							>
-								<View
-									style={[
-										styles.infoHeader,
-										{ paddingRight: "20%" },
-									]}
-								>
-									<Image
-										style={{ width: 100, height: 100 }}
-										source={alter}
-									/>
+									{order.items.map((item, idx) => {
+										return (
+											<View
+											key={idx}
+												style={[
+													styles.deliveryInfo,
+													{ marginTop: 5, borderBottomWidth: 0.5, borderBottomColor: '#ccc' },
+												]}
+											>
+												<View
+													style={[
+														styles.infoHeader,
+														{ paddingRight: "20%" },
+													]}
+												>
+													<Image
+														style={{
+															width: 100,
+															height: 100,
+														}}
+														source={{
+															uri: `${apiUrl}/uploads${item.info.image}`,
+														}}
+													/>
+													<View
+														style={{
+															paddingHorizontal: 15,
+															paddingVertical: 5,
+														}}
+													>
+														<Text
+															style={{
+																flexWrap:
+																	"wrap",
+																textAlign:
+																	"left",
+																fontWeight:
+																	"bold",
+															}}
+														>
+															{item.info.model}
+														</Text>
+														<View
+															style={
+																styles.infoHeader
+															}
+														>
+															<Text
+																style={{
+																	flexWrap:
+																		"wrap",
+																	textAlign:
+																		"left",
+																	paddingTop: 5,
+																}}
+															>
+																{item.info.sku}
+															</Text>
+														</View>
+														<View
+															style={
+																styles.infoHeader
+															}
+														>
+															<Text
+																style={{
+																	color: "lightcoral",
+																	paddingTop: 5,
+																}}
+															>
+																${item.info.price}{" "}
+															</Text>
+															<Text
+																style={{
+																	paddingTop: 5,
+																}}
+															>
+																{" "}
+																(x{item.qty}) - {order.payment_type}
+															</Text>
+														</View>
+													</View>
+												</View>
+											</View>
+										);
+									})}
 									<View
-										style={{
-											paddingHorizontal: 15,
-											paddingVertical: 5,
-										}}
+										style={[
+											styles.rowBox,
+											{
+												paddingHorizontal: 25,
+												paddingTop: 0,
+												borderBottomWidth: 0.5,
+												borderColor: "#ccc",
+											},
+										]}
 									>
 										<Text
 											style={{
-												flexWrap: "wrap",
-												textAlign: "left",
+												color: "#89B9AD",
 												fontWeight: "bold",
+												fontSize: 16,
+												marginLeft: 15,
+												position: "absolute",
+												right: 15,
+												bottom: 12,
 											}}
 										>
-											(FNK Vision) Camera IP Wifi Yoosee
+											Arriving
 										</Text>
-										<View style={styles.infoHeader}>
-											<Text
-												style={{
-													flexWrap: "wrap",
-													textAlign: "left",
-													paddingTop: 5,
-												}}
-											>
-												94/20 Thanh Loc 16 Q12
-											</Text>
-										</View>
-										<View style={styles.infoHeader}>
-											<Text
-												style={{
-													color: "lightcoral",
-													paddingTop: 5,
-												}}
-											>
-												$29.99{" "}
-											</Text>
-											<Text style={{ paddingTop: 5 }}>
-												{" "}
-												(x1) - Cash
-											</Text>
-										</View>
 									</View>
-								</View>
-							</View>
-							<View
-								style={[
-									styles.rowBox,
-									{
-										paddingHorizontal: 25,
-										paddingTop: 0,
-										borderBottomWidth: 0.5,
-										borderColor: "#ccc",
-									},
-								]}
-							>
-                
-								<Text
-									style={{
-										color: "#89B9AD",
-										fontWeight: "bold",
-										fontSize: 16,
-										marginLeft: 15,
-                    position: 'absolute',
-                    right: 15,
-                    bottom: 12
-									}}
-								>
-									Transiting
-								</Text>
-								
-							</View>
-						</TouchableOpacity>
+								</TouchableOpacity>
+							);
+						})}
 					</>
 				)}
 				{currentPage === "page2" && <Text>Page 2 Content</Text>}
 				{currentPage === "page3" && <Text>Page 3 Content</Text>}
-			</View>
+			</ScrollView>
 		</View>
 	);
 };
@@ -349,10 +320,10 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		backgroundColor: "white",
 	},
-  orderContainer: {
-    marginBottom: 10,
-    backgroundColor: "white",
-  },
+	orderContainer: {
+		marginBottom: 10,
+		backgroundColor: "white",
+	},
 	menu: {
 		flex: 1,
 
