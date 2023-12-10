@@ -10,48 +10,165 @@ import {
 	ScrollView,
 } from "react-native";
 
-import alter from "../static/alter.png";
+
 import axios from "axios";
 import Config from "../config.dev";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import StyleText from "../components/StyleText";
+import FullScreenLoader from "../components/FullScreenLoader";
+import BottomNav from "../components/BottomNav";
+
 
 const apiUrl = Config.API_URL;
 
 const HistoryScreen = ({ navigation }) => {
 	const [currentPage, setCurrentPage] = useState("page1");
 	const [orders, setOrders] = useState([]);
+	const [isLoading, setIsLoading] = useState(true); // Tracks overall loading state
+
+	// Fetch orders data
+	const fetchDataOrders = async () => {
+		const userJSON = await AsyncStorage.getItem("user");
+		const user = JSON.parse(userJSON);
+
+		try {
+			const response = await axios.get(
+				`${apiUrl}/order/get_orders_by_customer/${user.customer_id}`
+			);
+			const result = response.data;
+			if (result.success) {
+				setOrders([...result.data]);
+				checkLoading(); // Check if loading should be completed
+			}
+		} catch (err) {
+			Alert.alert("Error", "Orders not found", [{ text: "OK" }], {
+				cancelable: false,
+			});
+		}
+	};
+
+	// Check if both fonts and data are loaded
+	const checkLoading = () => {
+		if (orders.length > 0) {
+			setIsLoading(false);
+		}
+	};
 
 	useEffect(() => {
-		const fetchDataOrders = async () => {
-			const userJSON = await AsyncStorage.getItem("user");
-			const user = JSON.parse(userJSON);
-
-			await axios
-				.get(
-					`${apiUrl}/order/get_orders_by_customer/${user.customer_id}`
-				)
-				.then((response) => {
-					const result = response.data;
-					if (result.success) {
-						setOrders([...result.data]);
-					}
-				})
-				.catch((err) => {
-					Alert.alert(
-						"Error", // Title of the dialog
-						"Orders not found", // Message of the dialog
-						[
-							{ text: "OK" }, // Button to dismiss the dialog
-						],
-						{ cancelable: false } // Prevents the alert from being dismissed by tapping outside of the alert box
-					);
-				});
-		};
-
-		if (orders.length == 0) {
+		if (orders.length === 0) {
 			fetchDataOrders();
 		}
 	}, []);
+
+	useEffect(() => {
+		checkLoading();
+	}, [orders, isLoading]);
+
+	if (isLoading) {
+		return (
+			<View style={styles.container}>
+				<View style={styles.navContainer}>
+					{/* Menu */}
+
+					<View style={styles.menu}>
+						<TouchableHighlight
+							style={[
+								styles.menuItem,
+								{
+									borderColor: `${
+										currentPage === "page1"
+											? "#89B9AD"
+											: "transparent"
+									}`,
+								},
+							]}
+							underlayColor="#DDD"
+							onPress={() => {
+								setCurrentPage("page1");
+								setIsLoading(true);
+							}}
+						>
+							<StyleText
+								style={{
+									textAlign: "center",
+
+									color: `${
+										currentPage === "page1"
+											? "#89B9AD"
+											: "black"
+									}`,
+								}}
+							>
+								Arriving
+							</StyleText>
+						</TouchableHighlight>
+						<TouchableHighlight
+							style={[
+								styles.menuItem,
+								{
+									borderColor: `${
+										currentPage === "page2"
+											? "#89B9AD"
+											: "transparent"
+									}`,
+								},
+							]}
+							underlayColor="#DDD"
+							onPress={() => setCurrentPage("page2")}
+						>
+							<StyleText
+								style={{
+									textAlign: "center",
+
+									color: `${
+										currentPage === "page2"
+											? "#89B9AD"
+											: "black"
+									}`,
+								}}
+							>
+								Finished
+							</StyleText>
+						</TouchableHighlight>
+						<TouchableHighlight
+							style={[
+								styles.menuItem,
+								{
+									borderColor: `${
+										currentPage === "page3"
+											? "#89B9AD"
+											: "transparent"
+									}`,
+								},
+							]}
+							underlayColor="#DDD"
+							onPress={() => setCurrentPage("page3")}
+						>
+							<StyleText
+								style={{
+									textAlign: "center",
+
+									color: `${
+										currentPage === "page3"
+											? "#89B9AD"
+											: "black"
+									}`,
+								}}
+							>
+								Canceled
+							</StyleText>
+						</TouchableHighlight>
+					</View>
+
+					{/* Content */}
+				</View>
+				<ScrollView style={styles.content}>
+					<FullScreenLoader axis={0.9}/>
+				</ScrollView>
+
+			</View>
+		);
+	}
 
 	return (
 		<View style={styles.container}>
@@ -70,12 +187,15 @@ const HistoryScreen = ({ navigation }) => {
 							},
 						]}
 						underlayColor="#DDD"
-						onPress={() => setCurrentPage("page1")}
+						onPress={() => {
+							setCurrentPage("page1");
+							setIsLoading(true);
+						}}
 					>
-						<Text
+						<StyleText
 							style={{
 								textAlign: "center",
-								fontWeight: "bold",
+
 								color: `${
 									currentPage === "page1"
 										? "#89B9AD"
@@ -84,7 +204,7 @@ const HistoryScreen = ({ navigation }) => {
 							}}
 						>
 							Arriving
-						</Text>
+						</StyleText>
 					</TouchableHighlight>
 					<TouchableHighlight
 						style={[
@@ -100,10 +220,10 @@ const HistoryScreen = ({ navigation }) => {
 						underlayColor="#DDD"
 						onPress={() => setCurrentPage("page2")}
 					>
-						<Text
+						<StyleText
 							style={{
 								textAlign: "center",
-								fontWeight: "bold",
+
 								color: `${
 									currentPage === "page2"
 										? "#89B9AD"
@@ -112,7 +232,7 @@ const HistoryScreen = ({ navigation }) => {
 							}}
 						>
 							Finished
-						</Text>
+						</StyleText>
 					</TouchableHighlight>
 					<TouchableHighlight
 						style={[
@@ -128,10 +248,10 @@ const HistoryScreen = ({ navigation }) => {
 						underlayColor="#DDD"
 						onPress={() => setCurrentPage("page3")}
 					>
-						<Text
+						<StyleText
 							style={{
 								textAlign: "center",
-								fontWeight: "bold",
+
 								color: `${
 									currentPage === "page3"
 										? "#89B9AD"
@@ -140,7 +260,7 @@ const HistoryScreen = ({ navigation }) => {
 							}}
 						>
 							Canceled
-						</Text>
+						</StyleText>
 					</TouchableHighlight>
 				</View>
 
@@ -154,8 +274,8 @@ const HistoryScreen = ({ navigation }) => {
 								<TouchableOpacity
 									key={index}
 									onPress={() => {
-										navigation.navigate("Order Detail",{
-											data: order
+										navigation.navigate("Order Detail", {
+											data: order,
 										});
 									}}
 									style={styles.orderContainer}
@@ -169,15 +289,14 @@ const HistoryScreen = ({ navigation }) => {
 											},
 										]}
 									>
-										<Text
+										<StyleText
 											style={{
 												fontSize: 16,
-												fontWeight: "bold",
 											}}
 										>
 											{order.store.name} - Store
-										</Text>
-										<Text
+										</StyleText>
+										<StyleText
 											style={{
 												paddingTop: 2,
 												fontSize: 13,
@@ -185,16 +304,21 @@ const HistoryScreen = ({ navigation }) => {
 											}}
 										>
 											{order.createdDate}
-										</Text>
+										</StyleText>
 									</View>
 
 									{order.items.map((item, idx) => {
 										return (
 											<View
-											key={idx}
+												key={idx}
 												style={[
 													styles.deliveryInfo,
-													{ marginTop: 5, borderBottomWidth: 0.5, borderBottomColor: '#ccc' },
+													{
+														marginTop: 5,
+														borderBottomWidth: 0.5,
+														borderBottomColor:
+															"#ccc",
+													},
 												]}
 											>
 												<View
@@ -218,56 +342,62 @@ const HistoryScreen = ({ navigation }) => {
 															paddingVertical: 5,
 														}}
 													>
-														<Text
+														<StyleText
 															style={{
 																flexWrap:
 																	"wrap",
 																textAlign:
 																	"left",
-																fontWeight:
-																	"bold",
 															}}
 														>
 															{item.info.model}
-														</Text>
+														</StyleText>
 														<View
 															style={
 																styles.infoHeader
 															}
 														>
-															<Text
+															<StyleText
 																style={{
 																	flexWrap:
 																		"wrap",
 																	textAlign:
 																		"left",
 																	paddingTop: 5,
+																	color: "#ccc",
 																}}
 															>
 																{item.info.sku}
-															</Text>
+															</StyleText>
 														</View>
 														<View
 															style={
 																styles.infoHeader
 															}
 														>
-															<Text
+															<StyleText
 																style={{
 																	color: "lightcoral",
 																	paddingTop: 5,
 																}}
 															>
-																${item.info.price}{" "}
-															</Text>
-															<Text
+																$
+																{
+																	item.info
+																		.price
+																}{" "}
+															</StyleText>
+															<StyleText
 																style={{
 																	paddingTop: 5,
 																}}
 															>
 																{" "}
-																(x{item.qty}) - {order.payment_type}
-															</Text>
+																(x{item.qty}) -{" "}
+																{
+																	order.payment_type
+																}
+															</StyleText>
 														</View>
 													</View>
 												</View>
@@ -285,10 +415,10 @@ const HistoryScreen = ({ navigation }) => {
 											},
 										]}
 									>
-										<Text
+										<StyleText
 											style={{
 												color: "#89B9AD",
-												fontWeight: "bold",
+
 												fontSize: 16,
 												marginLeft: 15,
 												position: "absolute",
@@ -296,16 +426,20 @@ const HistoryScreen = ({ navigation }) => {
 												bottom: 12,
 											}}
 										>
-											Arriving
-										</Text>
+											{order.status}
+										</StyleText>
 									</View>
 								</TouchableOpacity>
 							);
 						})}
 					</>
 				)}
-				{currentPage === "page2" && <Text>Page 2 Content</Text>}
-				{currentPage === "page3" && <Text>Page 3 Content</Text>}
+				{currentPage === "page2" && (
+					<StyleText>Page 2 Content</StyleText>
+				)}
+				{currentPage === "page3" && (
+					<StyleText>Page 3 Content</StyleText>
+				)}
 			</ScrollView>
 		</View>
 	);
@@ -340,7 +474,7 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 3,
 	},
 	content: {
-		flex: 2,
+		flex: 1,
 	},
 	rowBox: {
 		flexDirection: "row",

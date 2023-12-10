@@ -14,7 +14,7 @@
 		96905EF65AED1B983A6B3ABC /* libPods-MyExpoApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-MyExpoApp.a */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		8DC32E81CA334AC18AF637A8 /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD03DABDC96E4400877EA0D9 /* Montserrat-Medium.ttf */; };
+		85B1AAA08DF34312A1F3D29B /* montserrat.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7687E9E0C9DE4BA5A8611D3F /* montserrat.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +31,7 @@
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-MyExpoApp/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		AD03DABDC96E4400877EA0D9 /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; name = "Montserrat-Medium.ttf"; path = "../assets/fonts/Montserrat-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7687E9E0C9DE4BA5A8611D3F /* montserrat.ttf */ = {isa = PBXFileReference; name = "montserrat.ttf"; path = "../assets/fonts/montserrat.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,7 +137,7 @@
 		12760D73141240D18EDA95F5 /* Resources */ = {
 			isa = "PBXGroup";
 			children = (
-				AD03DABDC96E4400877EA0D9 /* Montserrat-Medium.ttf */,
+				7687E9E0C9DE4BA5A8611D3F /* montserrat.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -206,7 +206,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				8DC32E81CA334AC18AF637A8 /* Montserrat-Medium.ttf in Resources */,
+				85B1AAA08DF34312A1F3D29B /* montserrat.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

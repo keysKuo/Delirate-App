@@ -11,6 +11,8 @@ import EntypoIcon from "react-native-vector-icons/Entypo";
 import { useRoute } from "@react-navigation/native";
 import alter from "../static/alter.png";
 import Config from "../config.dev";
+import StyleText from "../components/StyleText";
+
 const apiUrl = Config.API_URL;
 
 export default function OrderDetailScreen({ navigation }) {
@@ -49,16 +51,16 @@ export default function OrderDetailScreen({ navigation }) {
 							{ width: "80%", paddingTop: 20 },
 						]}
 					>
-						<Text
+						<StyleText
 							style={{
 								color: "white",
 								fontSize: 17,
-								fontWeight: "bold",
+								
 							}}
 						>
 							Your package is transiting
-						</Text>
-						<Text
+						</StyleText>
+						<StyleText
 							style={{
 								color: "white",
 								fontSize: 14,
@@ -67,7 +69,7 @@ export default function OrderDetailScreen({ navigation }) {
 						>
 							Please make sure that you receive your package
 							before 02-12-2023
-						</Text>
+						</StyleText>
 					</View>
 					<View
 						style={{
@@ -83,33 +85,33 @@ export default function OrderDetailScreen({ navigation }) {
 				<View style={styles.deliveryInfo}>
 					<View style={styles.infoHeader}>
 						<EntypoIcon name="paper-plane" size={20} />
-						<Text
+						<StyleText
 							style={{
 								paddingHorizontal: 10,
-								fontWeight: "bold",
+								
 								fontSize: 17,
 							}}
 						>
 							Delivery information
-						</Text>
+						</StyleText>
 						<TouchableOpacity
 							style={{ position: "absolute", right: 10 }}
 						>
-							<Text style={styles.highlightText}>DETAIL</Text>
+							<StyleText style={styles.highlightText}>DETAIL</StyleText>
 						</TouchableOpacity>
 					</View>
 
 					<View style={styles.infoBody}>
-						<Text style={{ fontSize: 14 }}>
-							<Text style={{ fontWeight: "bold" }}>From:</Text>{" "}
+						<StyleText style={{ fontSize: 14 }}>
+							<StyleText style={{ fontWeight: "bold" }}>From:</StyleText>{" "}
 							{order.store.name} - Store
-						</Text>
-						<Text style={{ fontSize: 14 }}>
+						</StyleText>
+						<StyleText style={{ fontSize: 14 }}>
 							{order.store.location}
-						</Text>
+						</StyleText>
 						<View style={styles.infoStatus}>
-							<Text style={styles.highlightText}>Transiting</Text>
-							<Text>{order.createdDateTime}</Text>
+							<StyleText style={styles.highlightText}>Transiting</StyleText>
+							<StyleText>{order.createdDateTime}</StyleText>
 						</View>
 					</View>
 				</View>
@@ -117,33 +119,33 @@ export default function OrderDetailScreen({ navigation }) {
 				<View style={styles.deliveryInfo}>
 					<View style={styles.infoHeader}>
 						<EntypoIcon name="location-pin" size={20} />
-						<Text
+						<StyleText
 							style={{
 								paddingHorizontal: 10,
-								fontWeight: "bold",
+								
 								fontSize: 17,
 							}}
 						>
 							Receiver information
-						</Text>
+						</StyleText>
 						<TouchableOpacity
 							style={{ position: "absolute", right: 10 }}
 						>
-							<Text style={styles.highlightText}>COPY</Text>
+							<StyleText style={styles.highlightText}>COPY</StyleText>
 						</TouchableOpacity>
 					</View>
 
 					<View style={styles.infoBody}>
-						<Text style={{ fontSize: 14 }}>
-							<Text style={{ fontWeight: "bold" }}>To:</Text>{" "}
+						<StyleText style={{ fontSize: 14 }}>
+							<StyleText style={{ fontWeight: "bold" }}>To:</StyleText>{" "}
 							{order.customer.name}
-						</Text>
-						<Text style={{ fontSize: 14 }}>
+						</StyleText>
+						<StyleText style={{ fontSize: 14 }}>
 							{order.customer.phone}
-						</Text>
-						<Text style={{ fontSize: 14 }}>
+						</StyleText>
+						<StyleText style={{ fontSize: 14 }}>
 							{order.customer.address}
-						</Text>
+						</StyleText>
 					</View>
 				</View>
 
@@ -151,6 +153,7 @@ export default function OrderDetailScreen({ navigation }) {
 					{order.items.map((item, index) => {
 						return (
 							<View
+								key={index}
 								style={[
 									styles.infoHeader,
 									{ paddingRight: '25%', marginTop: 5 },
@@ -166,16 +169,16 @@ export default function OrderDetailScreen({ navigation }) {
 										paddingVertical: 5,
 									}}
 								>
-									<Text
+									<StyleText
 										style={{
 											flexWrap: "wrap",
 											textAlign: "left",
 										}}
 									>
 										{item.info.model}
-									</Text>
+									</StyleText>
 									<View style={styles.infoHeader}>
-										<Text
+										<StyleText
 											style={{
 												flexWrap: "wrap",
 												textAlign: "left",
@@ -184,8 +187,8 @@ export default function OrderDetailScreen({ navigation }) {
 											}}
 										>
 											{item.info.sku}
-										</Text>
-										<Text
+										</StyleText>
+										<StyleText
 											style={{
 												flexWrap: "wrap",
 												textAlign: "left",
@@ -195,12 +198,12 @@ export default function OrderDetailScreen({ navigation }) {
 										>
 											{" "}
 											x{item.qty}
-										</Text>
+										</StyleText>
 									</View>
 									<View style={styles.price}>
-										<Text style={{ color: "lightcoral" }}>
+										<StyleText style={{ color: "lightcoral" }}>
 											${item.price}
-										</Text>
+										</StyleText>
 									</View>
 								</View>
 							</View>
@@ -218,14 +221,14 @@ export default function OrderDetailScreen({ navigation }) {
 					]}
 				>
 					<View style={[styles.infoHeader, styles.infoFooter]}>
-						<Text>Total:</Text>
-						<Text style={{ color: "lightcoral", paddingLeft: 10 }}>
+						<StyleText>Total:</StyleText>
+						<StyleText style={{ color: "lightcoral", paddingLeft: 10 }}>
 							${(order.total_price * 1.1).toFixed(2)} (VAT: 10%)
-						</Text>
+						</StyleText>
 					</View>
 					<View style={styles.infoHeader}>
 						<TouchableOpacity style={styles.buttonContact}>
-							<Text style={{ color: "white" }}>Contact Shop</Text>
+							<StyleText style={{ color: "white" }}>Contact Shop</StyleText>
 						</TouchableOpacity>
 						<TouchableOpacity
 							style={[
@@ -233,7 +236,7 @@ export default function OrderDetailScreen({ navigation }) {
 								{ backgroundColor: "lightcoral" },
 							]}
 						>
-							<Text style={{ color: "white" }}>Cancel Order</Text>
+							<StyleText style={{ color: "white" }}>Cancel Order</StyleText>
 						</TouchableOpacity>
 					</View>
 				</View>
@@ -276,7 +279,7 @@ const styles = StyleSheet.create({
 	highlightText: {
 		color: "#89B9AD",
 		fontSize: 15,
-		fontWeight: "bold",
+		
 	},
 	price: {
 	},

@@ -1,15 +1,14 @@
-import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Button } from "react-native-elements";
+import { NavigationContainer } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import EntypoIcon from "react-native-vector-icons/Entypo";
+
 import HomeScreen from "./screens/Home";
 import VerifyOriginScreen from "./screens/VerifyOrigin";
 import QRScannerScreen from "./screens/QRScanner";
 import FailOriginScreen from "./screens/FailOrigin";
 import LoginScreen from "./screens/Login";
 import OTPVerificationScreen from "./screens/OTPVerification";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect, useState } from "react";
 import WalletProfileScreen from "./screens/WalletProfile";
 import AdmitPermissionScreen from "./screens/Permission";
 import TrackingDeliveryScreen from "./screens/TrackingDelivery";
@@ -18,6 +17,7 @@ import HistoryScreen from "./screens/History";
 import PayConfirmScreen from "./screens/PayConfirm";
 import ItemInfoScreen from "./screens/ItemInfo";
 
+import { useEffect, useState } from "react";
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
@@ -43,7 +43,9 @@ const AppNavigator = () => {
 
 	return (
 		<NavigationContainer>
-			<Stack.Navigator initialRouteName={token ? "Home" : "Login"}>
+			<Stack.Navigator
+				initialRouteName={token ? "Home" : "Home"}
+			>
 				<Stack.Screen
 					options={{ headerShown: false }}
 					name="Home"

@@ -61,7 +61,7 @@ export default function QRScannerScreen({ navigation }) {
 		try {
 			setScanned(true);
 			
-			if (data.startsWith(`${apiUrl}/account`)) {
+			if (data.startsWith(`${apiUrl}/account/login_qr`)) {
 				let userJSON = await AsyncStorage.getItem("user");
 				let user = JSON.parse(userJSON);
 
@@ -108,6 +108,33 @@ export default function QRScannerScreen({ navigation }) {
 					})
 				}
 				
+			}
+			else if(data.startsWith(`${Config.API_URL}/account/verify`)) {
+				await axios.get(data)
+					.then(response => {
+						const result = response.data;
+						if(result.success) {
+							Alert.alert(
+								"Verification", // Title of the dialog
+								"Your account is activated", // Message of the dialog
+								[
+									{ text: "OK" }, // Button to dismiss the dialog
+								],
+								{ cancelable: false } // Prevents the alert from being dismissed by tapping outside of the alert box
+							);
+							navigation.navigate("Home");
+						}
+					})
+					.catch(err => {
+						Alert.alert(
+							"Error", // Title of the dialog
+							"QR error: " + err, // Message of the dialog
+							[
+								{ text: "OK" }, // Button to dismiss the dialog
+							],
+							{ cancelable: false } // Prevents the alert from being dismissed by tapping outside of the alert box
+						);
+					})
 			}
 			else {
 				let decrypted_link = decryptAES(data, "nkeyskuo");

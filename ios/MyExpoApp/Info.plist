@@ -55,7 +55,7 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Montserrat-Medium.ttf</string>
+		<string>montserrat.ttf</string>
 	</array>
 </dict>
 </plist>
