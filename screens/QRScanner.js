@@ -8,6 +8,7 @@ import {
 	Easing,
 	TouchableOpacity,
 	Alert,
+	ActivityIndicator
 } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import crypto from "crypto-js";
@@ -15,7 +16,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import Config from "../config.dev";
 import StyleText from "../components/StyleText";
-import { ActivityIndicator } from "react-native-web";
 
 
 function decryptAES(encode, secretKey) {
