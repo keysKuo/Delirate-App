@@ -6,7 +6,7 @@ import {
 	Dimensions,
 	Animated,
 	Easing,
-	Button,
+	TouchableOpacity,
 	Alert,
 } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
@@ -14,6 +14,8 @@ import crypto from "crypto-js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import Config from "../config.dev";
+import StyleText from "../components/StyleText";
+
 
 function decryptAES(encode, secretKey) {
 	let bytes = crypto.AES.decrypt(encode, secretKey);
@@ -60,10 +62,10 @@ export default function QRScannerScreen({ navigation }) {
 	const handleBarCodeScanned = async ({ type, data }) => {
 		try {
 			setScanned(true);
-			
+			let userJSON = await AsyncStorage.getItem("user");
+			let user = JSON.parse(userJSON);
+
 			if (data.startsWith(`${apiUrl}/account/login_qr`)) {
-				let userJSON = await AsyncStorage.getItem("user");
-				let user = JSON.parse(userJSON);
 
 				const response = await axios.post(data, {
 					email: user.email,
@@ -138,9 +140,17 @@ export default function QRScannerScreen({ navigation }) {
 			}
 			else {
 				let decrypted_link = decryptAES(data, "nkeyskuo");
-				navigation.navigate("VerifyOrigin", {
-					state: decrypted_link,
-				});
+
+				if(user.role === 'shipper') {
+					navigation.navigate("TrackingDelivery", {
+						code: decrypted_link.split('verify_origin/')[1]
+					})
+				}
+				else {
+					navigation.navigate("VerifyOrigin", {
+						state: decrypted_link,
+					});
+				}	
 			}
 		} catch (error) {
 			Alert.alert(
@@ -207,12 +217,11 @@ export default function QRScannerScreen({ navigation }) {
 					/>
 				</Animated.View>
 			) : (
-				<View style={styles.scanAgain}>
-					<Button
-						onPress={() => setScanned(false)}
-						title="Scan again"
-					/>
-				</View>
+				<TouchableOpacity onPress={() => setScanned(false)} style={styles.scanAgain}>
+					<StyleText>
+						Scan Again
+					</StyleText>
+				</TouchableOpacity>
 			)}
 		</View>
 	);
@@ -231,6 +240,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: "center",
 		justifyContent: "center",
+		backgroundColor: 'transparent'
 	},
 	aimingSquare: {
 		width: squareSize,

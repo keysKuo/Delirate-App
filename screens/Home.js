@@ -16,13 +16,20 @@ import FullScreenLoader from "../components/FullScreenLoader";
 import Config from "../config.dev";
 import Menu from "../components/Menu";
 import BottomNav from "../components/BottomNav";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import CreditCard from "../components/CreditCard";
 
 const menuItems = ["Tokens", "Transactions"];
 
 const apiUrl = Config.API_URL;
 
 const HomeScreen = ({ navigation }) => {
+	const [account, setAccount] = useState({
+		name: "",
+		email: "",
+		phone: "",
+		role: "",
+	});
 	const logo = require("../static/delirate2.png");
 	const coinAPI = "https://api.coincap.io/v2/assets";
 	const [currentPage, setCurrentPage] = useState("Tokens");
@@ -39,8 +46,8 @@ const HomeScreen = ({ navigation }) => {
 				.then((response) => {
 					const result = response.data;
 					const targets = result.data.map((item) => {
-						if(item.id === 'near-protocol') {
-							setNearRate(item.priceUsd)
+						if (item.id === "near-protocol") {
+							setNearRate(item.priceUsd);
 						}
 						let changePercent = parseFloat(item.changePercent24Hr);
 						let change24HrStr =
@@ -58,23 +65,38 @@ const HomeScreen = ({ navigation }) => {
 		};
 
 		const fetchAccountBalance = async () => {
-			await axios.get(`${apiUrl}/account/get_account_balance`)
-				.then(response => {
+			
+			await axios
+				.get(`${apiUrl}/account/get_account_balance`)
+				.then((response) => {
 					const result = response.data;
 
-					if(result.success) {
-						setAccountBalance((parseFloat(result.balance) / Math.pow(10,24)).toFixed(2));
+					if (result.success) {
+						setAccountBalance(
+							(
+								parseFloat(result.balance) / Math.pow(10, 24)
+							).toFixed(2)
+						);
 					}
 				})
-				.catch(err => {
+				.catch((err) => {
 					console.log(err);
-				})
-		}
+				});
+		};
 
 		// Call the function
 		fetchCryptoPrices();
 		fetchAccountBalance();
 	}, [refreshKey]);
+	
+	const checkAccount = async () => {
+		const userJSON = await AsyncStorage.getItem("user");
+		setAccount({ ...JSON.parse(userJSON) });
+	}
+
+	useEffect(() => {
+		checkAccount()
+	}, account);
 
 	const checkLoading = () => {
 		if (coinTokens.length > 0) {
@@ -91,49 +113,12 @@ const HomeScreen = ({ navigation }) => {
 			<View style={styles.headerContainer}>
 				<Image style={styles.logo} source={logo} resizeMode="contain" />
 			</View>
-			<View style={styles.center}>
-				<View style={styles.mainNav}>
-					<TouchableOpacity style={styles.tab}>
-						<Icon name="enter-outline" size={32} color="#9aa0a6" />
-						<StyleText style={styles.text}>Deposit</StyleText>
-					</TouchableOpacity>
-					<TouchableOpacity style={styles.tab}>
-						<Icon
-							name="log-out-outline"
-							size={32}
-							color="#9aa0a6"
-						/>
-						<StyleText style={styles.text}>Withdraw</StyleText>
-					</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() => {
-							navigation.navigate("QRScanner");
-						}}
-						style={styles.tab}
-					>
-						<Icon name="card-outline" size={32} color="#9aa0a6" />
-						<StyleText style={styles.text}>Payment</StyleText>
-					</TouchableOpacity>
-					<TouchableOpacity style={styles.tab}>
-						<Icon
-							name="game-controller-outline"
-							size={32}
-							color="#9aa0a6"
-						/>
-						<StyleText style={styles.text}>Games</StyleText>
-					</TouchableOpacity>
-				</View>
 
-				<View style={[styles.balanceContainer, { marginTop: 10 }]}>
-					<StyleText style={{ color: "#ccc", fontSize: 17 }}>
-						Kuo Nhan Dung
-					</StyleText>
-					<StyleText style={styles.balance}>{accountBalance} Near</StyleText>
-					<StyleText style={{ color: "#ccc", fontSize: 15 }}>
-						~ {(accountBalance * nearRate).toFixed(2)} USDT
-					</StyleText>
-				</View>
-			</View>
+			<CreditCard
+					account={account}
+					accountBalance={accountBalance}
+					nearRate={nearRate}
+				/>
 
 			<View style={{ paddingVertical: 80 }}></View>
 
@@ -144,6 +129,8 @@ const HomeScreen = ({ navigation }) => {
 						currentPage={currentPage}
 						setCurrentPage={setCurrentPage}
 						setIsLoading={setIsLoading}
+						qty={2}
+						style={{ paddingHorizontal: 15 }}
 					/>
 					<ScrollView style={styles.slider}>
 						<FullScreenLoader axis={0.5} />
@@ -156,6 +143,8 @@ const HomeScreen = ({ navigation }) => {
 						currentPage={currentPage}
 						setCurrentPage={setCurrentPage}
 						setIsLoading={setIsLoading}
+						qty={2}
+						style={{ paddingHorizontal: 15 }}
 					/>
 					<ScrollView style={styles.slider}>
 						{currentPage == "Tokens" ? (
@@ -252,7 +241,11 @@ const HomeScreen = ({ navigation }) => {
 				</>
 			)}
 
-			<BottomNav navigation={navigation} setRefreshKey={setRefreshkey} setIsLoading={setIsLoading} />
+			<BottomNav
+				navigation={navigation}
+				setRefreshKey={setRefreshkey}
+				setIsLoading={setIsLoading}
+			/>
 		</View>
 	);
 };
@@ -343,7 +336,7 @@ const styles = StyleSheet.create({
 		// justifyContent: "center",
 		width: "100%",
 		maxHeight: 440,
-	}
+	},
 });
 
 export default HomeScreen;

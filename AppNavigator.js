@@ -2,6 +2,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import EntypoIcon from "react-native-vector-icons/Entypo";
+import { Icon } from "@rneui/themed";
 
 import HomeScreen from "./screens/Home";
 import VerifyOriginScreen from "./screens/VerifyOrigin";
@@ -105,18 +106,18 @@ const AppNavigator = () => {
 					options={({ navigation }) => ({
 						headerShown: true,
 						headerLeft: () => (
-							<EntypoIcon
+							<Icon
 								onPress={() => {
 									navigation.goBack();
 								}}
-								style={{ marginLeft: 10 }}
-								name="arrow-left"
+								style={{ marginLeft: 15 }}
+								name="arrow-back"
 								size={25}
 								color="#000"
 							/>
 						),
 						headerRight: () => (
-							<EntypoIcon
+							<Icon
 								style={{ marginRight: 20 }}
 								name="menu"
 								size={25}
@@ -131,18 +132,18 @@ const AppNavigator = () => {
 					options={({ navigation }) => ({
 						headerShown: true,
 						headerLeft: () => (
-							<EntypoIcon
+							<Icon
 								onPress={() => {
 									navigation.goBack();
 								}}
-								style={{ marginLeft: 10 }}
-								name="arrow-left"
+								style={{ marginLeft: 15 }}
+								name="arrow-back"
 								size={25}
 								color="#000"
 							/>
 						),
 						headerRight: () => (
-							<EntypoIcon
+							<Icon
 								style={{ marginRight: 20 }}
 								name="menu"
 								size={25}

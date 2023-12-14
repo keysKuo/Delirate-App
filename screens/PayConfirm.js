@@ -17,7 +17,7 @@ const PayConfirmScreen = ({ navigation }) => {
 	const banner = require("../static/near-wallet.png");
 	const route = useRoute();
 	const [fetchUrl, setFetchUrl] = useState("");
-	const [orderId, setOrderId] = useState("");
+	const [code, setCode] = useState("");
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -35,7 +35,7 @@ const PayConfirmScreen = ({ navigation }) => {
 					return accumulator;
 				}, {});
 
-			setOrderId(query["order_id"]);
+			setCode(query["code"]);
 			setTotalPrice(query["amount"]);
 		}
 	}, []);
@@ -98,7 +98,7 @@ const PayConfirmScreen = ({ navigation }) => {
 									{ textAlign: "right" },
 								]}
 							>
-								{orderId}
+								{code}
 							</Text>
 						</View>
 						<View style={styles.tableRow}>

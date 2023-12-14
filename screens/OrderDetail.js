@@ -110,7 +110,7 @@ export default function OrderDetailScreen({ navigation }) {
 							{order.store.location}
 						</StyleText>
 						<View style={styles.infoStatus}>
-							<StyleText style={styles.highlightText}>Transiting</StyleText>
+							<StyleText style={styles.highlightText}>{order.status}</StyleText>
 							<StyleText>{order.createdDateTime}</StyleText>
 						</View>
 					</View>

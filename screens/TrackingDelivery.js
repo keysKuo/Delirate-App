@@ -14,9 +14,17 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DropdownComponent from "../components/Dropdown";
 import Modal from 'react-native-modal';
+import { useRoute } from "@react-navigation/native";
+
+
+import Config from "../config.dev";
+const apiUrl = Config.API_URL;
 
 export default function TrackingDeliveryScreen({ navigation }) {
 	const apiKey = "103c6e71aa844086a6bbda0e3e9c7ffe";
+	const [code, setCode] = useState('');
+	const route = useRoute();
+
 
 	const [_status, setStatus] = useState("");
 	const [note, setNote] = useState("");
@@ -32,6 +40,13 @@ export default function TrackingDeliveryScreen({ navigation }) {
 	const [isModalVisible, setModalVisible] = useState(false);
 
 	const logo = require("../static/delirate-main.png");
+
+	useEffect(() => {
+		const { params } = route;
+		if (params && params.code) {
+			setCode(params.code);
+		}
+	}, []);
 
 	const fetchLocation = async (url) => {
 		axios
@@ -58,7 +73,7 @@ export default function TrackingDeliveryScreen({ navigation }) {
 			const user = JSON.parse(userJSON);
 
 			if (!trackSigner) {
-				setTrackSigner(user.name);
+				setTrackSigner(user.email);
 			}
 		})();
 
@@ -105,7 +120,7 @@ export default function TrackingDeliveryScreen({ navigation }) {
 		// Handle form submission here, including the status, note, location, trackSigner, and capturedImage.
 		console.log("Status:", _status);
 		console.log("Note:", note);
-		console.log("Location:", location);
+		console.log("Location:", foundLocation);
 		console.log("Track Signer:", trackSigner);
 		console.log("Captured Image:", capturedImage);
 
@@ -117,8 +132,39 @@ export default function TrackingDeliveryScreen({ navigation }) {
 		// Perform your confirmation logic here
 		// This can include updating state or executing an action
 		// Once the confirmation is done, you can close the modal
+		fetchTrackingDelivery();
 		toggleModal();
+		navigation.navigate("Home");
 	  };
+
+	const fetchTrackingDelivery = async () => {
+
+		const formDataToSend = new FormData();
+		formDataToSend.append('file', {
+			name: new Date() + '.png',
+			uri: capturedImage,
+			type: 'image/jpg'
+		});
+		formDataToSend.append('track_signer', trackSigner);
+		formDataToSend.append('location', foundLocation);
+		formDataToSend.append('status', _status);
+		formDataToSend.append('note', note);
+		formDataToSend.append('folder', `/${trackSigner}/trackings`)
+		
+		await axios.put(`${apiUrl}/order/tracking_delivery/${code}`, formDataToSend, {
+			headers: {
+				'Folder-Path': `/${trackSigner}/trackings`,
+				'Content-Type': 'multipart/form-data',
+			},
+		})
+			.then(response => {
+				const result = response.data;
+				console.log(result);
+			})
+			.catch(err => {
+				console.log(err);
+			})
+	}
 
 	return (
 		<View style={styles.container}>
@@ -148,7 +194,7 @@ export default function TrackingDeliveryScreen({ navigation }) {
 				placeholder="Enter status"
 			/> */}
 
-			<DropdownComponent />
+			<DropdownComponent setStatus={setStatus} />
 
 			<TextInput
 				style={[styles.input, {  borderColor: "black" }]}

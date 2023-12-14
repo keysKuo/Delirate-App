@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {
 	View,
-	Text,
 	StyleSheet,
-	Image,
-	TouchableHighlight,
-	TouchableOpacity,
+
 	Alert,
 	ScrollView,
 } from "react-native";
@@ -16,13 +13,15 @@ import Config from "../config.dev";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import StyleText from "../components/StyleText";
 import FullScreenLoader from "../components/FullScreenLoader";
-import BottomNav from "../components/BottomNav";
+import Menu from "../components/Menu";
+import OrderList from "../components/OrderList";
 
+const menuItems = ['Arriving', 'Finished', 'Canceled']
 
 const apiUrl = Config.API_URL;
 
 const HistoryScreen = ({ navigation }) => {
-	const [currentPage, setCurrentPage] = useState("page1");
+	const [currentPage, setCurrentPage] = useState("Arriving");
 	const [orders, setOrders] = useState([]);
 	const [isLoading, setIsLoading] = useState(true); // Tracks overall loading state
 
@@ -69,96 +68,13 @@ const HistoryScreen = ({ navigation }) => {
 			<View style={styles.container}>
 				<View style={styles.navContainer}>
 					{/* Menu */}
-
-					<View style={styles.menu}>
-						<TouchableHighlight
-							style={[
-								styles.menuItem,
-								{
-									borderColor: `${
-										currentPage === "page1"
-											? "#89B9AD"
-											: "transparent"
-									}`,
-								},
-							]}
-							underlayColor="#DDD"
-							onPress={() => {
-								setCurrentPage("page1");
-								setIsLoading(true);
-							}}
-						>
-							<StyleText
-								style={{
-									textAlign: "center",
-
-									color: `${
-										currentPage === "page1"
-											? "#89B9AD"
-											: "black"
-									}`,
-								}}
-							>
-								Arriving
-							</StyleText>
-						</TouchableHighlight>
-						<TouchableHighlight
-							style={[
-								styles.menuItem,
-								{
-									borderColor: `${
-										currentPage === "page2"
-											? "#89B9AD"
-											: "transparent"
-									}`,
-								},
-							]}
-							underlayColor="#DDD"
-							onPress={() => setCurrentPage("page2")}
-						>
-							<StyleText
-								style={{
-									textAlign: "center",
-
-									color: `${
-										currentPage === "page2"
-											? "#89B9AD"
-											: "black"
-									}`,
-								}}
-							>
-								Finished
-							</StyleText>
-						</TouchableHighlight>
-						<TouchableHighlight
-							style={[
-								styles.menuItem,
-								{
-									borderColor: `${
-										currentPage === "page3"
-											? "#89B9AD"
-											: "transparent"
-									}`,
-								},
-							]}
-							underlayColor="#DDD"
-							onPress={() => setCurrentPage("page3")}
-						>
-							<StyleText
-								style={{
-									textAlign: "center",
-
-									color: `${
-										currentPage === "page3"
-											? "#89B9AD"
-											: "black"
-									}`,
-								}}
-							>
-								Canceled
-							</StyleText>
-						</TouchableHighlight>
-					</View>
+					<Menu
+						menuItems={menuItems}
+						currentPage={currentPage}
+						setCurrentPage={setCurrentPage}
+						setIsLoading={setIsLoading}
+						qty={3}
+					/>
 
 					{/* Content */}
 				</View>
@@ -174,271 +90,31 @@ const HistoryScreen = ({ navigation }) => {
 		<View style={styles.container}>
 			<View style={styles.navContainer}>
 				{/* Menu */}
-				<View style={styles.menu}>
-					<TouchableHighlight
-						style={[
-							styles.menuItem,
-							{
-								borderColor: `${
-									currentPage === "page1"
-										? "#89B9AD"
-										: "transparent"
-								}`,
-							},
-						]}
-						underlayColor="#DDD"
-						onPress={() => {
-							setCurrentPage("page1");
-							setIsLoading(true);
-						}}
-					>
-						<StyleText
-							style={{
-								textAlign: "center",
-
-								color: `${
-									currentPage === "page1"
-										? "#89B9AD"
-										: "black"
-								}`,
-							}}
-						>
-							Arriving
-						</StyleText>
-					</TouchableHighlight>
-					<TouchableHighlight
-						style={[
-							styles.menuItem,
-							{
-								borderColor: `${
-									currentPage === "page2"
-										? "#89B9AD"
-										: "transparent"
-								}`,
-							},
-						]}
-						underlayColor="#DDD"
-						onPress={() => setCurrentPage("page2")}
-					>
-						<StyleText
-							style={{
-								textAlign: "center",
-
-								color: `${
-									currentPage === "page2"
-										? "#89B9AD"
-										: "black"
-								}`,
-							}}
-						>
-							Finished
-						</StyleText>
-					</TouchableHighlight>
-					<TouchableHighlight
-						style={[
-							styles.menuItem,
-							{
-								borderColor: `${
-									currentPage === "page3"
-										? "#89B9AD"
-										: "transparent"
-								}`,
-							},
-						]}
-						underlayColor="#DDD"
-						onPress={() => setCurrentPage("page3")}
-					>
-						<StyleText
-							style={{
-								textAlign: "center",
-
-								color: `${
-									currentPage === "page3"
-										? "#89B9AD"
-										: "black"
-								}`,
-							}}
-						>
-							Canceled
-						</StyleText>
-					</TouchableHighlight>
-				</View>
+				<Menu
+						menuItems={menuItems}
+						currentPage={currentPage}
+						setCurrentPage={setCurrentPage}
+						setIsLoading={setIsLoading}
+						qty={3}
+					/>
 
 				{/* Content */}
 			</View>
 			<ScrollView style={styles.content}>
-				{currentPage === "page1" && (
-					<>
-						{orders.map((order, index) => {
-							return (
-								<TouchableOpacity
-									key={index}
-									onPress={() => {
-										navigation.navigate("Order Detail", {
-											data: order,
-										});
-									}}
-									style={styles.orderContainer}
-								>
-									<View
-										style={[
-											styles.rowBox,
-											{
-												borderTopWidth: 0.5,
-												borderColor: "#ccc",
-											},
-										]}
-									>
-										<StyleText
-											style={{
-												fontSize: 16,
-											}}
-										>
-											{order.store.name} - Store
-										</StyleText>
-										<StyleText
-											style={{
-												paddingTop: 2,
-												fontSize: 13,
-												color: "#ccc",
-											}}
-										>
-											{order.createdDate}
-										</StyleText>
-									</View>
-
-									{order.items.map((item, idx) => {
-										return (
-											<View
-												key={idx}
-												style={[
-													styles.deliveryInfo,
-													{
-														marginTop: 5,
-														borderBottomWidth: 0.5,
-														borderBottomColor:
-															"#ccc",
-													},
-												]}
-											>
-												<View
-													style={[
-														styles.infoHeader,
-														{ paddingRight: "20%" },
-													]}
-												>
-													<Image
-														style={{
-															width: 100,
-															height: 100,
-														}}
-														source={{
-															uri: `${apiUrl}/uploads${item.info.image}`,
-														}}
-													/>
-													<View
-														style={{
-															paddingHorizontal: 15,
-															paddingVertical: 5,
-														}}
-													>
-														<StyleText
-															style={{
-																flexWrap:
-																	"wrap",
-																textAlign:
-																	"left",
-															}}
-														>
-															{item.info.model}
-														</StyleText>
-														<View
-															style={
-																styles.infoHeader
-															}
-														>
-															<StyleText
-																style={{
-																	flexWrap:
-																		"wrap",
-																	textAlign:
-																		"left",
-																	paddingTop: 5,
-																	color: "#ccc",
-																}}
-															>
-																{item.info.sku}
-															</StyleText>
-														</View>
-														<View
-															style={
-																styles.infoHeader
-															}
-														>
-															<StyleText
-																style={{
-																	color: "lightcoral",
-																	paddingTop: 5,
-																}}
-															>
-																$
-																{
-																	item.info
-																		.price
-																}{" "}
-															</StyleText>
-															<StyleText
-																style={{
-																	paddingTop: 5,
-																}}
-															>
-																{" "}
-																(x{item.qty}) -{" "}
-																{
-																	order.payment_type
-																}
-															</StyleText>
-														</View>
-													</View>
-												</View>
-											</View>
-										);
-									})}
-									<View
-										style={[
-											styles.rowBox,
-											{
-												paddingHorizontal: 25,
-												paddingTop: 0,
-												borderBottomWidth: 0.5,
-												borderColor: "#ccc",
-											},
-										]}
-									>
-										<StyleText
-											style={{
-												color: "#89B9AD",
-
-												fontSize: 16,
-												marginLeft: 15,
-												position: "absolute",
-												right: 15,
-												bottom: 12,
-											}}
-										>
-											{order.status}
-										</StyleText>
-									</View>
-								</TouchableOpacity>
-							);
-						})}
-					</>
+				{currentPage === "Arriving" && (		
+					<OrderList navigation={navigation} orders={orders.filter(order => {
+						return order.status !== 'Finished' && order.status !== 'Canceled';
+					})} />
 				)}
-				{currentPage === "page2" && (
-					<StyleText>Page 2 Content</StyleText>
+				{currentPage === "Finished" && (
+					<OrderList navigation={navigation} orders={orders.filter(order => {
+						return order.status === 'Finished';
+					})} />
 				)}
-				{currentPage === "page3" && (
-					<StyleText>Page 3 Content</StyleText>
+				{currentPage === "Canceled" && (
+					<OrderList navigation={navigation} orders={orders.filter(order => {
+						return order.status === 'Canceled';
+					})} />
 				)}
 			</ScrollView>
 		</View>

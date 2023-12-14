@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import StyleText from "../components/StyleText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import BottomNav from "../components/BottomNav";
 
+import { Icon } from "@rneui/themed";
 import Config from "../config.dev";
 
 const apiUrl = Config.API_URL;
@@ -130,7 +130,11 @@ const WalletProfileScreen = ({ navigation }) => {
 					</StyleText>
 				</View>
 			</TouchableOpacity>
-
+			<TouchableOpacity onPress={() => {
+				navigation.navigate("Home")
+			}}  style={styles.btnBackToHome}>
+				<Icon name="arrow-back" color="white" />
+			</TouchableOpacity>
 			{/* <BottomNav navigation={navigation} /> */}
 		</View>
 	);
@@ -203,6 +207,14 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		marginTop: 2,
 		marginRight: -3
+	},
+	btnBackToHome: {
+		width: 60,
+		height: 50,
+		position: 'absolute',
+		top: 35,
+		left: 0
+
 	}
 });
 

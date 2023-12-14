@@ -9,7 +9,7 @@ import React, { useState } from 'react';
     { label: 'Finished', value: 'Finished' },
   ];
 
-  const DropdownComponent = () => {
+  const DropdownComponent = ({ setStatus }) => {
     const [value, setValue] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
 
@@ -43,6 +43,7 @@ import React, { useState } from 'react';
           onBlur={() => setIsFocus(false)}
           onChange={item => {
             setValue(item.value);
+            setStatus(item.value);
             setIsFocus(false);
           }}
           renderLeftIcon={() => (

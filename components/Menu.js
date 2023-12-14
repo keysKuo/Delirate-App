@@ -5,9 +5,11 @@ export default function Menu({
 	currentPage,
 	setCurrentPage,
 	setIsLoading,
+	qty=1,
+	style
 }) {
 	return (
-		<View style={styles.menu}>
+		<View style={[styles.menu, style]}>
 			{menuItems.map((item, index) => {
 				return (
 					<TouchableHighlight
@@ -18,9 +20,10 @@ export default function Menu({
 								borderColor: `${
 									currentPage === item ? "#89B9AD" : "#ccc"
 								}`,
+								width: qty === 2 ? "50%" : qty == 3 ? "33.33%" : "100%",
 							},
 						]}
-						underlayColor="#DDD"
+						underlayColor="transparent"
 						onPress={() => {
 							setIsLoading(true);
 							setCurrentPage(item);
@@ -29,7 +32,7 @@ export default function Menu({
 						<StyleText
 							style={{
 								textAlign: "center",
-								fontSize: 14,
+								fontSize: 13,
 								textTransform: "uppercase",
 								color: `${
 									currentPage === item ? "#89B9AD" : "black"
@@ -51,10 +54,8 @@ const styles = StyleSheet.create({
 		backgroundColor: "white",
 		flexDirection: "row",
 		justifyContent: "space-between",
-		paddingHorizontal: 15,
 	},
 	menuItem: {
-		width: "50%",
 		textAlign: "center",
 		alignItems: "center",
 		justifyContent: "center",
