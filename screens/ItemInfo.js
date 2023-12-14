@@ -13,6 +13,7 @@ import Config from "../config.dev";
 import { Icon, Rating } from "react-native-elements";
 import { WebView } from "react-native-webview";
 import StyleText from "../components/StyleText";
+import HTML from 'react-native-render-html';
 
 const apiUrl = Config.API_URL;
 
@@ -69,13 +70,7 @@ const ItemInfoScreen = ({ navigation }) => {
 				</View>
 
 				<ScrollView style={{ maxHeight: 250, marginHorizontal: -9 }}>
-					<WebView
-						style={{ height: 250, width: 1000 }}
-						originWhitelist={["*"]}
-						source={{ html: item.desc }}
-						scalesPageToFit={true}
-						injectedJavaScript={`const meta = document.createElement('meta'); meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'); meta.setAttribute('name', 'viewport'); document.getElementsByTagName('head')[0].appendChild(meta);`}
-					/>
+					{item.desc && <HTML contentWidth={100} source={{ html: item.desc }} />}
 				</ScrollView>
 			</View>
 

@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import Config from "../config.dev";
 import StyleText from "../components/StyleText";
+import { ActivityIndicator } from "react-native-web";
 
 
 function decryptAES(encode, secretKey) {
@@ -218,9 +219,7 @@ export default function QRScannerScreen({ navigation }) {
 				</Animated.View>
 			) : (
 				<TouchableOpacity onPress={() => setScanned(false)} style={styles.scanAgain}>
-					<StyleText>
-						Scan Again
-					</StyleText>
+					<ActivityIndicator />
 				</TouchableOpacity>
 			)}
 		</View>
