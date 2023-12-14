@@ -96,7 +96,7 @@ const HomeScreen = ({ navigation }) => {
 
 	useEffect(() => {
 		checkAccount()
-	},[account]);
+	},[]);
 
 	const checkLoading = () => {
 		if (coinTokens.length > 0) {
