@@ -29,12 +29,13 @@ const HistoryScreen = ({ navigation }) => {
 	const fetchDataOrders = async () => {
 		const userJSON = await AsyncStorage.getItem("user");
 		const user = JSON.parse(userJSON);
-
+		console.log(`${apiUrl}/order/get_orders_by_customer/${user.customer_id}`)
 		try {
 			const response = await axios.get(
 				`${apiUrl}/order/get_orders_by_customer/${user.customer_id}`
 			);
 			const result = response.data;
+			console.log(result)
 			if (result.success) {
 				setOrders([...result.data]);
 				checkLoading(); // Check if loading should be completed

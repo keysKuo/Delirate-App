@@ -118,14 +118,9 @@ export default function TrackingDeliveryScreen({ navigation }) {
 
 	const handleSubmit = () => {
 		// Handle form submission here, including the status, note, location, trackSigner, and capturedImage.
-		console.log("Status:", _status);
-		console.log("Note:", note);
-		console.log("Location:", foundLocation);
-		console.log("Track Signer:", trackSigner);
-		console.log("Captured Image:", capturedImage);
 
 		toggleModal();
-		// You can send the data to your server or perform any other desired action.
+		// You can srend the data to your server or perform any other desired action.
 	};
 
 	const handleConfirm = () => {

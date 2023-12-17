@@ -34,7 +34,7 @@ const VerifyOriginScreen = ({ navigation }) => {
 		const fetchData = async (url) => {
 			try {
 				const response = await axios.get(url);
-				// console.log(response)
+				console.log(url)
 				const result = response.data;
 				if (result.success) {
 					// console.log(result.data._tracking_history);
