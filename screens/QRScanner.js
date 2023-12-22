@@ -141,16 +141,24 @@ export default function QRScannerScreen({ navigation }) {
 			}
 			else {
 				let decrypted_link = decryptAES(data, "nkeyskuo");
-
-				if(user.role === 'shipper') {
-					navigation.navigate("TrackingDelivery", {
-						code: decrypted_link.split('verify_origin/')[1]
-					})
+				let [ ISBN_code, customer_id ] = decrypted_link.split(' ');
+				
+				if(user.customer_id === customer_id) {
+					
+					navigation.navigate("VerifyOrigin", {
+						state: `${apiUrl}/order/verify_origin/${ISBN_code}/${customer_id}`,
+					});
+					
 				}
 				else {
-					navigation.navigate("VerifyOrigin", {
-						state: decrypted_link,
-					});
+					if(user.role === 'shipper') {
+						navigation.navigate("TrackingDelivery", {
+							code: decrypted_link.split('verify_origin/')[1]
+						})
+					}
+					else {
+						navigation.navigate("FailOrigin")
+					}
 				}	
 			}
 		} catch (error) {
@@ -219,7 +227,7 @@ export default function QRScannerScreen({ navigation }) {
 				</Animated.View>
 			) : (
 				<TouchableOpacity onPress={() => setScanned(false)} style={styles.scanAgain}>
-					<ActivityIndicator />
+					<ActivityIndicator size={30} />
 				</TouchableOpacity>
 			)}
 		</View>

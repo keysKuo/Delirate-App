@@ -35,7 +35,7 @@ const HistoryScreen = ({ navigation }) => {
 				`${apiUrl}/order/get_orders_by_customer/${user.customer_id}`
 			);
 			const result = response.data;
-			console.log(result)
+			// console.log(result)
 			if (result.success) {
 				setOrders([...result.data]);
 				checkLoading(); // Check if loading should be completed

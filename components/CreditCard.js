@@ -29,9 +29,6 @@ export default function CreditCard({ account, accountBalance, nearRate}) {
 						<StyleText style={styles.text}>Withdraw</StyleText>
 					</TouchableOpacity>
 					<TouchableOpacity
-						onPress={() => {
-							navigation.navigate("QRScanner");
-						}}
 						style={styles.tab}
 					>
 						<Icon name="card-outline" size={32} color="#9aa0a6" />
