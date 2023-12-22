@@ -2,6 +2,9 @@
 ## About The Project
 
 <img src="static/capture1.jpg" width="200px">
+<img src="static/capture2.jpg" width="200px">
+<img src="static/capture3.jpg" width="200px">
+<img src="static/capture4.jpg" width="200px">
 
 There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
 
