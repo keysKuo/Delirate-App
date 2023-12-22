@@ -48,15 +48,12 @@ To get a local copy up and running follow these simple example steps.
    ```js
    const API_URL = 'Your IP Address';
    ```
+4. Run the source code
+   ```sh
+   npx expo start
+   ```
 
-
-
-<!-- CONTACT -->
-## Contact
-
-nKeys Kuo - [nkeyskuo124@gmail.com]
-SUD Technology - [0767916592]
-
+5. Run app with Expo Go or Android Studio simulators
 
 
 
