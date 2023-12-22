@@ -29,11 +29,11 @@ To run this project, make sure that your environment have all of these framework
 This is how you may setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
-Install Expo CLI.
+* Install Expo CLI.
 
-      ```sh
-      npm install -g expo-cli
-      ```
+   ```sh
+   npm install -g expo-cli
+   ```
 
 ### Installation
 
