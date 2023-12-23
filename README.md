@@ -80,6 +80,6 @@ To get a local copy up and running follow these simple example steps.
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
 [ReactNative.js]: https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB
-[ReactNative-url]:https://https://reactnative.dev
+[ReactNative-url]: https://reactnative.dev
 [Expo.js]: https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37
 [Expo-url]: https://expo.dev
